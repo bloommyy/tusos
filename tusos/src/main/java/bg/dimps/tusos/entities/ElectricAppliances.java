@@ -6,10 +6,10 @@ import javax.persistence.*;
 public class ElectricAppliances {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long applianceID;
 
-    private Long applienceID;
     @ManyToOne
-    @JoinColumn(name = "room_room_id")
+    @JoinColumn(name = "room_id")
     private Room room;
     private String name;
 
@@ -21,8 +21,8 @@ public class ElectricAppliances {
         this.name = name;
     }
 
-    public Long getApplienceID() {
-        return applienceID;
+    public Long getApplianceID() {
+        return applianceID;
     }
 
     public Room getRoom() {

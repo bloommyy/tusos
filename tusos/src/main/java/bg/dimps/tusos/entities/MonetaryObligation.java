@@ -3,14 +3,36 @@ package bg.dimps.tusos.entities;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-public class MonetaryObligation {
+enum ObligationType
+{
+    Rent,
+    Electricity,
+    ColdWater,
+    HotEnergy,
+    Garbage
+}
 
+@Entity
+public class MonetaryObligation {
+    @Id
+    @Column(name = "obligation_id", nullable = false)
     private Long obligationID;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private Student student;
     private Integer month ;
     private ObligationType type;
     private BigDecimal monetaryValue;
     private boolean isPaid;
+
+    public Long getObligationID() {
+        return obligationID;
+    }
+
+    public void setObligationID(Long obligationID) {
+        this.obligationID = obligationID;
+    }
 
     public MonetaryObligation(Student student, Integer month, ObligationType type, BigDecimal monetaryValue, boolean isPaid) {
         this.student = student;
@@ -21,10 +43,6 @@ public class MonetaryObligation {
     }
 
     public MonetaryObligation() {
-    }
-
-    public Long getObligationID() {
-        return obligationID;
     }
 
     public Student getStudent() {

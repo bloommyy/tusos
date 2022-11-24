@@ -7,11 +7,12 @@ public class Furniture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long furnitureID;
+
     @ManyToOne
-    @JoinColumn(name = "room_room_id")
+    @JoinColumn(name = "room_id")
     private Room room;
+
     @ManyToOne
     @JoinColumn(name = "type_type")
     private FurnitureType type;

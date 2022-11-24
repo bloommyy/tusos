@@ -1,9 +1,6 @@
 package bg.dimps.tusos.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -11,11 +8,20 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Long roomID;
+
+    @Column(name = "dorm_id")
     private Long dormID;
+
+    @OneToMany(mappedBy = "room")
     private List<Student> students;
+
+    @OneToMany(mappedBy = "room")
     private List<Furniture> furnitures;
+
+    @OneToMany(mappedBy = "room")
     private List<ElectricAppliances> electricAppliances;
     private String description;
 
