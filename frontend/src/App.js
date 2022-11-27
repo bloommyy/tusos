@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import { applyMiddleware } from 'redux';
@@ -22,11 +22,11 @@ export default function App() {
     <Provider store={store}>
       <Router>
         <div>
-          <Switch>
+          <Routes>
             <AuthRoute path='/login' type='guest'>
               <LoginPage />
             </AuthRoute>
-          </Switch>
+          </Routes>
         </div>
       </Router>
     </Provider>

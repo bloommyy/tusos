@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { Redirect, Route } from "react-router";
+import { Navigate, Route } from "react-router";
 
 const AuthRoute = props => {
     const { isAuthUser, type } = props;
-    if (type === "guest" && isAuthUser) return <Redirect to={"/home"} />;
-    else if ((type === "private" && !isAuthUser) || type === 'index') return <Redirect to={"/login"} />;
+    if (type === "guest" && isAuthUser) return <Navigate to={"/home"} />;
+    else if ((type === "private" && !isAuthUser) || type === 'index') return <Navigate to={"/login"} />;
 
     return <Route {...props} />;
 };
