@@ -3,15 +3,13 @@ package bg.dimps.tusos.entities;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-enum ObligationType
-{
+enum ObligationType {
     Rent,
     Electricity,
     ColdWater,
     HotEnergy,
     Garbage
 }
-
 @Entity
 public class MonetaryObligation {
     @Id
@@ -84,4 +82,5 @@ public class MonetaryObligation {
     public void setPaid(boolean paid) {
         isPaid = paid;
     }
+
 }

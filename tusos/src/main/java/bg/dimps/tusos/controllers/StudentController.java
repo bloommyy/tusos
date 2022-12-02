@@ -1,19 +1,16 @@
 package bg.dimps.tusos.controllers;
 
-import bg.dimps.tusos.entities.MonetaryObligation;
-import bg.dimps.tusos.entities.Room;
 import bg.dimps.tusos.entities.Student;
 import bg.dimps.tusos.repositories.StudentRepository;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/student")
 public class StudentController {
+
     private final StudentRepository studentRepo;
 
     public StudentController(StudentRepository studentRepo) {
