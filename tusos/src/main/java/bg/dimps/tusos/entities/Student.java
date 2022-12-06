@@ -1,5 +1,6 @@
 package bg.dimps.tusos.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Student {
     private Room room;
 
     @OneToMany(mappedBy = "student")
+    @JsonBackReference
     private List<MonetaryObligation> obligations;
     private String facultyNumber;
 
