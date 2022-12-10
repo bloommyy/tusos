@@ -10,8 +10,6 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long roomID;
-
     @Column(name = "dorm_id")
     private Long dormID;
 
@@ -23,6 +21,7 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<ElectricAppliances> electricAppliances;
+
     private String description;
 
     public Room(List<Student> students, List<Furniture> furnitures, List<ElectricAppliances> electricAppliances, String description) {
@@ -35,12 +34,12 @@ public class Room {
     public Room() {
     }
 
-    public Long getRoomID() {
-        return roomID;
-    }
-
     public Long getDormID() {
         return dormID;
+    }
+
+    public void setDormID(Long dormID) {
+        this.dormID = dormID;
     }
 
     public List<Student> getStudents() {
@@ -75,17 +74,17 @@ public class Room {
         this.description = description;
     }
 
-    public void AddFruniture(Furniture furniture){
-
+    public void addFurniture(Furniture furniture){
+        furnitures.add(furniture);
     }
-    public void RemoveFurniture(Furniture furniture){
-
+    public void removeFurniture(Furniture furniture){
+        furnitures.remove(furniture);
     }
-    public void AddElectricAppliance(ElectricAppliances elAppliances){
-
+    public void addElectricAppliance(ElectricAppliances elAppliances){
+        electricAppliances.add(elAppliances);
     }
-    public void RemoveElectricAppliance(ElectricAppliances elAppliances){
-
+    public void removeElectricAppliance(ElectricAppliances elAppliances){
+        electricAppliances.remove(electricAppliances);
     }
 
 }
