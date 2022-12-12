@@ -56,9 +56,9 @@ public class Furniture {
     }
 
     public void ChangeRoom(Room room){
-
+        setRoom(room);
     }
     public void ChangeState(boolean isBroken){
-
+        setBroken(isBroken);
     }
 }
