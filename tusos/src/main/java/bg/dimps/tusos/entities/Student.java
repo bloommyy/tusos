@@ -1,21 +1,18 @@
 package bg.dimps.tusos.entities;
 
+import bg.dimps.tusos.security.pojos.request.SignupRequest;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "student")
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "student_id")
-    private Long id;
-
+public class Student extends User {
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
@@ -23,33 +20,37 @@ public class Student {
     @OneToMany(mappedBy = "student")
     @JsonBackReference
     private List<MonetaryObligation> obligations;
+
     private String facultyNumber;
 
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String phoneNumber;
-    private String email;
-    private String password;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Student(Room room, ArrayList<MonetaryObligation> obligations, String facultyNumber, String firstName, String middleName, String lastName, String phoneNumber, String email, String password) {
+    public Student(
+            Long id,
+            String firstName,
+            String middleName,
+            String lastName,
+            String phoneNumber,
+            String email,
+            String password,
+            Set<Role> roles,
+            Room room,
+            List<MonetaryObligation> obligations,
+            String facultyNumber) {
+        super(id, firstName, middleName, lastName, phoneNumber, email, password, roles);
         this.room = room;
         this.obligations = obligations;
         this.facultyNumber = facultyNumber;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+    }
+
+    public Student (SignupRequest signupRequest, String password) {
+        this.firstName = signupRequest.getFirstName();
+        this.middleName = signupRequest.getMiddleName();
+        this.lastName = signupRequest.getLastName();
+        this.facultyNumber = signupRequest.getFacultyNum();
+        this.phoneNumber = signupRequest.getPhoneNumber();
+        this.email = signupRequest.getEmail();
         this.password = password;
+        this.room = null;
+        this.obligations = new ArrayList<>();
     }
 
     public Student() {
@@ -67,7 +68,7 @@ public class Student {
         return obligations;
     }
 
-    public void setObligations(ArrayList<MonetaryObligation> obligations) {
+    public void setObligations(List<MonetaryObligation> obligations) {
         this.obligations = obligations;
     }
 
@@ -77,60 +78,5 @@ public class Student {
 
     public void setFacultyNumber(String facultyNumber) {
         this.facultyNumber = facultyNumber;
-    }
-
-    public void MoveToRoom(Room room){
-
-    }
-    public void PayObligation(MonetaryObligation monObligation){
-
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
