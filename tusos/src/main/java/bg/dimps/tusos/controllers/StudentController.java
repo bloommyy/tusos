@@ -10,6 +10,7 @@ import bg.dimps.tusos.security.pojos.response.JwtResponse;
 import bg.dimps.tusos.security.services.UserDetailsImpl;
 import bg.dimps.tusos.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -39,6 +40,7 @@ public class StudentController {
     }
 
     @GetMapping("/fetch")
+    @PreAuthorize("hasRole(ROLE_HOST)")
     public List<User> getAllStudents(){
         return userRepository.findAll();
     }
