@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 public interface UserService{
     void saveUser(SignupRequest signupRequest);
     Student getStudent(String facultyNumber);
+    String checkRequest(SignupRequest signupRequest);
 }

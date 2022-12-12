@@ -4,17 +4,17 @@ import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
     @NotBlank
-    private String facultyNumber;
+    private String email;
 
     @NotBlank
     private String password;
 
-    public String getFacultyNumber() {
-        return facultyNumber;
+    public String getEmail() {
+        return email;
     }
 
-    public void setFacultyNumber(String facultyNumber) {
-        this.facultyNumber = facultyNumber;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

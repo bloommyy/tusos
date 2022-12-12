@@ -3,6 +3,7 @@ package bg.dimps.tusos.entities;
 import javax.persistence.*;;
 
 @Entity
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
