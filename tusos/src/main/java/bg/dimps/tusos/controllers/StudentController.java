@@ -40,7 +40,7 @@ public class StudentController {
     }
 
     @GetMapping("/fetch")
-    @PreAuthorize("hasRole(ROLE_HOST)")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public List<User> getAllStudents(){
         return userRepository.findAll();
     }
