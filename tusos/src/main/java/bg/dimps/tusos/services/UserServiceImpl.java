@@ -1,7 +1,10 @@
 package bg.dimps.tusos.services;
 
+import bg.dimps.tusos.entities.ERole;
 import bg.dimps.tusos.entities.Role;
 import bg.dimps.tusos.entities.Student;
+import bg.dimps.tusos.entities.User;
+import bg.dimps.tusos.repositories.RoleRepository;
 import bg.dimps.tusos.repositories.UserRepository;
 import bg.dimps.tusos.security.pojos.request.SignupRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,17 +17,43 @@ import java.util.Set;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void saveUser(SignupRequest signupRequest) {
-        Student student = new Student(signupRequest, passwordEncoder.encode(signupRequest.getPassword()));
-        userRepository.save(student);
+        Student user = new Student(signupRequest, passwordEncoder.encode(signupRequest.getPassword()));
+
+        Set<String> strRoles = signupRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                if ("host".equals(role)) {
+                    Role adminRole = roleRepository.findByName(ERole.ROLE_HOST)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(adminRole);
+                } else {
+                    Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                }
+            });
+        }
+
+        user.setRoles(roles);
+        userRepository.save(user);
     }
 
     @Override
