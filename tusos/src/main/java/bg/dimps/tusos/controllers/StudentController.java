@@ -5,10 +5,10 @@ import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.repositories.UserRepository;
 import bg.dimps.tusos.security.jwt.JwtUtils;
 import bg.dimps.tusos.security.pojos.request.LoginRequest;
-import bg.dimps.tusos.security.pojos.request.SignupRequest;
+import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
 import bg.dimps.tusos.security.pojos.response.JwtResponse;
 import bg.dimps.tusos.security.services.UserDetailsImpl;
-import bg.dimps.tusos.services.UserService;
+import bg.dimps.tusos.services.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,13 +30,13 @@ public class StudentController {
     private final JwtUtils jwtUtils;
 
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final StudentService studentService;
 
-    public StudentController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository, UserService userService) {
+    public StudentController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository, StudentService studentService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.userRepository = userRepository;
-        this.userService = userService;
+        this.studentService = studentService;
     }
 
     @GetMapping("/fetch")
@@ -46,12 +46,12 @@ public class StudentController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerStudent(@RequestBody SignupRequest request){
-        String checkRequest = userService.checkRequest(request);
-        if(checkRequest != "ok"){
+    public ResponseEntity<?> registerStudent(@RequestBody StudentSignupRequest request) {
+        String checkRequest = studentService.checkRequest(request);
+        if (checkRequest != "ok") {
             return ResponseEntity.badRequest().body("User already exists");
-        }else{
-            userService.saveUser(request);
+        } else {
+            studentService.saveStudent(request);
         }
         return ResponseEntity.ok("User registered successfully!");
     }
