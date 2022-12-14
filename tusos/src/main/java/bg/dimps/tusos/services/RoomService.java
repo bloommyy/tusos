@@ -13,7 +13,7 @@ public interface RoomService {
     List<Student> getRoomStudents(Long roomId);
     List<Furniture> getRoomFurniture(Long roomId);
     boolean addFurnitureType(FurnitureType furnitureType);
-    boolean addNewFurniture(Long roomId, Furniture furniture, FurnitureType furnitureType);
+    boolean addNewFurniture(Long roomId, Furniture furniture, Long typeId);
     boolean removeFurniture(Long furnitureId);
     boolean addNewElectricAppliance(Long roomId, ElectricAppliances electricAppliance);
     boolean removeElectricAppliance(Long electricApplianceId);
