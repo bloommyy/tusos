@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-
 import { applyMiddleware } from 'redux';
 import reducer from './middlewares/reducer';
 import { createStore } from 'redux';
@@ -10,6 +9,7 @@ import AuthRoute from './components/AuthRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
 
 const createStoreWithMiddleware = applyMiddleware(
   appMiddleware,
@@ -27,6 +27,10 @@ export default function App() {
             <AuthRoute path='/login' type='guest'>
               <LoginPage />
             </AuthRoute>
+            <AuthRoute path="/home" isAuthUser={true} type="private">
+              <HomePage />
+            </AuthRoute>
+            <AuthRoute path="/" type="index" />
           </Switch>
         </div>
       </Router>
