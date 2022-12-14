@@ -1,5 +1,7 @@
 package bg.dimps.tusos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +10,7 @@ public class ElectricAppliances {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applianceID;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;

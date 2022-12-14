@@ -1,5 +1,7 @@
 package bg.dimps.tusos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,12 +11,13 @@ public class Furniture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long furnitureID;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name = "type_type")
+    @JoinColumn(name = "type_id")
     private FurnitureType type;
     private boolean isBroken;
 

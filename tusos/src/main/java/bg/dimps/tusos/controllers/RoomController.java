@@ -17,12 +17,14 @@ public class RoomController {
         this.roomService = roomService;
     }
 
+    //pre authorize (has role host)
     @GetMapping("/fetch")
     public ResponseEntity<?> getAllRoomsInDorm(Long dormId){
         List<Room> rooms = roomService.getAllDormRooms(dormId);
         return ResponseEntity.ok(rooms);
     }
 
+    //pre authorize (has role host)
     @PostMapping("/addRoom")
     public ResponseEntity<?> addRoom(Long dormId, @RequestBody Room room){
         if (room != null){
@@ -33,19 +35,20 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
+    //pre authorize (has role host)
     @PostMapping("/addStudent")
     public ResponseEntity<?> addStudent(Long roomId, @RequestBody Student student){
         Room currentRoom = roomService.getRoomById(roomId);
         if (currentRoom != null && student != null){
-            student.setRoom(currentRoom);
             roomService.addStudent(roomId, student);
             return ResponseEntity.ok("Student added successfully!");
         }
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
+    //pre authorize (has role host)
     @PostMapping("/addFurnitureType")
-    public ResponseEntity<?> addFurnitureType(FurnitureType furnitureType){
+    public ResponseEntity<?> addFurnitureType(@RequestBody FurnitureType furnitureType){
         if (furnitureType != null){
             roomService.addFurnitureType(furnitureType);
             return ResponseEntity.ok("Furniture type added successfully!");
@@ -53,14 +56,17 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
+    //pre authorize (has role host or student)
     @PostMapping("/addFurniture")
-    public ResponseEntity<?> addFurniture(Long roomId, @RequestBody Furniture furniture, FurnitureType furnitureType){
+    public ResponseEntity<?> addFurniture(Long roomId, Long typeId, @RequestBody Furniture furniture){
         if (furniture != null){
-            roomService.addNewFurniture(roomId, furniture, furnitureType);
+            roomService.addNewFurniture(roomId, furniture, typeId);
             return ResponseEntity.ok("Furniture added successfully!");
         }
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
+
+    //pre authorize (has role host or student)
     @DeleteMapping("/removeFurniture")
     public ResponseEntity<?> removeFurniture(Long furnitureId){
         if (roomService.removeFurniture(furnitureId)){
@@ -69,8 +75,9 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot remove item");
     }
 
+    //pre authorize (has role host or student)
     @PostMapping("/addElectricAppliance")
-    public ResponseEntity<?> addFurniture(Long roomId, @RequestBody ElectricAppliances electricAppliance){
+    public ResponseEntity<?> addElectricAppliance(Long roomId, @RequestBody ElectricAppliances electricAppliance){
         if (electricAppliance != null){
             roomService.addNewElectricAppliance(roomId, electricAppliance);
             return ResponseEntity.ok("ElectricAppliance added successfully!");
@@ -78,6 +85,7 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
+    //pre authorize (has role host or student)
     @DeleteMapping("/removeElectricAppliance")
     public ResponseEntity<?> removeElectricAppliance(Long applianceId){
         if (roomService.removeElectricAppliance(applianceId)){
