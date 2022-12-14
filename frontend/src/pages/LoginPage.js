@@ -12,11 +12,14 @@ export default connect(({ error }) => ({ error }), { login })(props => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    function btnOnClick() {
+    function btnOnClick(e) {
+        e.preventDefault()
+
         if (email === "" || password === "") {
             alert("Не сте въвели e-mail или парола.");
             return;
         }
+
 
         props.login({ email, password });
     }

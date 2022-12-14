@@ -1,6 +1,6 @@
 function HomePage() {
     const userJSON = JSON.parse(localStorage.getItem('user'));
-    let isStudent = (userJSON.stClass !== undefined) ? true : false;
+    //let isStudent = (userJSON.stClass !== undefined) ? true : false;
 
     return (
         <div>
