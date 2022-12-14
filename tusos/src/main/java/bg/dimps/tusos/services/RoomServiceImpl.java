@@ -70,12 +70,14 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public boolean addNewFurniture(Long roomId, Furniture furniture, FurnitureType furnitureType) {
+    public boolean addNewFurniture(Long roomId, Furniture furniture, Long typeId) {
+        FurnitureType furnitureType = furnitureTypeRepository.findFurnitureTypeById(typeId);
         if (furniture != null && furnitureType != null){
             furniture.setType(furnitureType);
-            furnitureRepository.save(furniture);
             Room currentRoom = getRoomById(roomId);
+            furniture.setRoom(currentRoom);
             currentRoom.addFurniture(furniture);
+            furnitureRepository.save(furniture);
             return true;
         }
         return false;
@@ -94,9 +96,10 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public boolean addNewElectricAppliance(Long roomId, ElectricAppliances electricAppliance) {
         if (electricAppliance!=null){
-            electricApplianceRepository.save(electricAppliance);
             Room currentRoom = getRoomById(roomId);
             currentRoom.addElectricAppliance(electricAppliance);
+            electricAppliance.setRoom(currentRoom);
+            electricApplianceRepository.save(electricAppliance);
             return true;
         }
         return false;
@@ -117,6 +120,7 @@ public class RoomServiceImpl implements RoomService{
         if (student != null){
             Room currentRoom = getRoomById(roomId);
             currentRoom.getStudents().add(student);
+            student.setRoom(currentRoom);
             return true;
         }
         return false;

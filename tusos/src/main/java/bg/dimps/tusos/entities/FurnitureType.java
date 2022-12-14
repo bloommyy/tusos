@@ -1,21 +1,19 @@
 package bg.dimps.tusos.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class FurnitureType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long type;
+    @Column(name = "name")
     private String name;
 
-    public Long getType() {
-        return type;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

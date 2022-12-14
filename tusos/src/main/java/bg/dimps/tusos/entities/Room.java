@@ -1,5 +1,7 @@
 package bg.dimps.tusos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,6 +11,9 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "room_number")
+    private Long roomNumber;
 
     @Column(name = "dorm_id")
     private Long dormID;
@@ -24,7 +29,8 @@ public class Room {
 
     private String description;
 
-    public Room(List<Student> students, List<Furniture> furnitures, List<ElectricAppliances> electricAppliances, String description) {
+    public Room(Long roomNumber, List<Student> students, List<Furniture> furnitures, List<ElectricAppliances> electricAppliances, String description) {
+        this.roomNumber = roomNumber;
         this.students = students;
         this.furnitures = furnitures;
         this.electricAppliances = electricAppliances;
@@ -36,6 +42,14 @@ public class Room {
 
     public Long getDormID() {
         return dormID;
+    }
+
+    public Long getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Long roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public void setDormID(Long dormID) {
