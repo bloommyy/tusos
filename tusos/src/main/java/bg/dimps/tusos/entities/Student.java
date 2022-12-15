@@ -19,6 +19,7 @@ public class Student extends User {
     @JsonBackReference
     private List<MonetaryObligation> obligations;
 
+    @Column(unique = true)
     private String facultyNumber;
 
     public Student(

@@ -17,7 +17,9 @@ public class User {
     protected String firstName;
     protected String middleName;
     protected String lastName;
+    @Column(unique = true)
     protected String phoneNumber;
+    @Column(unique = true)
     protected String email;
     protected String password;
 
