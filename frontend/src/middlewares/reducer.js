@@ -12,7 +12,7 @@ export default (
     switch (action.type) {
         case API_SUCCESS:
             switch (action.url) {
-                case "http://localhost:8080/student/login":
+                case "http://localhost:8080/login":
                     {
                         localStorage.setItem("user", JSON.stringify(action.payload));
                         return { ...state, isAuthUser: true, user: action.payload };
@@ -24,7 +24,7 @@ export default (
                     }
             }
         case API_ERROR:
-            alert("Невалиден e-mail или парола.")
+            alert(action.payload)
             return { ...state, error: action.payload }
         case LOGOUT:
             localStorage.removeItem("user");

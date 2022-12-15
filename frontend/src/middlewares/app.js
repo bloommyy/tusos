@@ -9,7 +9,7 @@ export const appMiddleware = () => next => action => {
         case LOGIN: {
             next(
                 apiRequest({
-                    url: `${SERVER_URL}/student/login`,
+                    url: `${SERVER_URL}/login`,
                     method: "POST",
                     data: {
                         email: action.payload.email,
