@@ -9,6 +9,7 @@ import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
 import bg.dimps.tusos.security.pojos.response.JwtResponse;
 import bg.dimps.tusos.security.services.UserDetailsImpl;
 import bg.dimps.tusos.services.StudentService;
+import bg.dimps.tusos.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,7 +44,9 @@ public class StudentController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerStudent(@RequestBody StudentSignupRequest request) {
+    public ResponseEntity<?> registerStudent(@RequestBody StudentSignupRequest request, String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String facultyNumber, String repeatedPassword) {
+        UserServiceImpl userService = new UserServiceImpl();
+        userService.setUser(email, password, firstName, middleName, lastName, phoneNumber, facultyNumber, repeatedPassword);
         String checkRequest = studentService.checkRequest(request);
         if (checkRequest != "ok") {
             return ResponseEntity.badRequest().body("User already exists");
