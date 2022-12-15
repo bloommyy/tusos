@@ -1,11 +1,12 @@
+import StudentHomePage from './StudentHomePage'
+
 function HomePage() {
     const userJSON = JSON.parse(localStorage.getItem('user'));
-    //let isStudent = (userJSON.stClass !== undefined) ? true : false;
+    let isStudent = (userJSON.roles[0] === 'ROLE_STUDENT') ? true : false;
 
     return (
         <div>
-            tuk shte sa 2te stranici
-            {/* {isStudent && <StudentHomePage />} */}
+            {isStudent && <StudentHomePage />}
             {/* {!isStudent && <TeacherHomePage />} */}
         </div>
     )

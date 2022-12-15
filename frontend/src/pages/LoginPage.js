@@ -45,15 +45,15 @@ export default connect(({ error }) => ({ error }), { login })(props => {
                                     <div className="card-body py-5 px-md-5">
                                         <form>
                                             <div className="form-outline mb-4">
-                                                <label className="form-label">Email</label>
-                                                <input type="text" onChange={value => setEmail(value.target.value)} id="emailInput" className="form-control" />
+                                                <input type="password" id="facultynumInput" className="form-control" />
+                                                <label className="form-label">Факултетен номер</label>
                                             </div>
                                             <div className="form-outline mb-4">
+                                                <input type="password" id="passwordInput" className="form-control" />
                                                 <label className="form-label">Парола</label>
-                                                <input type="password" onChange={value => setPassword(value.target.value)} id="passwordInput" className="form-control" />
                                             </div>
 
-                                            <button type="submit" onClick={btnOnClick} className="btn btn-primary btn-block">
+                                            <button type="submit" className="btn btn-primary btn-block">
                                                 Вход
                                             </button>
 
@@ -70,6 +70,6 @@ export default connect(({ error }) => ({ error }), { login })(props => {
                     </div>
                 </div>
             </section>
-        </div>
+        </div>)
     </div>)
 });
