@@ -3,8 +3,49 @@
 <head> 
     <title>SOS Payment</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript">
+	function showPaymentMethod(pm){
+		var d = document.getElementById("divEasyPay");
+		if(pm=="divEasyPay"){
+			d.style.display = "block";
+		}else{
+			d.style.display = "none";
+		}
+		d = document.getElementById("divCreditCard");
+		if(pm=="divCreditCard"){
+			d.style.display = "block";
+		}else{
+			d.style.display = "none";
+		}
+		d = document.getElementById("divIBAN");
+		if(pm=="divIBAN"){
+			d.style.display = "block";
+		}else{
+			d.style.display = "none";
+		}
+	}
+	</script>
 </head>
+
 <body>
     <p> Payment: </p>
+    <form name="payment">
+    <input type="radio" id="paymentTypeNone" name="paymentType" value="none" style="display:none;">
+    <label for="paymentTypeEasyPay">EasyPay</label>
+    <input type="radio" id="paymentTypeEasyPay" name="paymentType" value="easyPay">
+    <label for="paymentTypeCredit">CreditCard</label>
+    <input type="radio" id="paymentTypeCredit" name="paymentType" value="creditCard">
+    <label for="paymentTypeIBAN">IBAN</label>
+    <input type="radio" id="paymentTypeIBAN" name="paymentType" value="IBAN">
+    <div id="divEasyPay" style="display:none;">
+    EasyPay
+    </div>
+     <div id="divCreditCard" style="display:none;">
+    CreditCard
+    </div>
+    <div id="divIBAN" style="display:none;">
+    IBAN
+    </div>
+    </form>
 </body>
 </html>

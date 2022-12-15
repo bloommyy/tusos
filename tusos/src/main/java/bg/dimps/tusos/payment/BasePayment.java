@@ -28,6 +28,7 @@ public class BasePayment implements Payment {
 
 	public BasePayment(long paymentId) {
 		this.paymentId = paymentId;
+		paymentMethod = PaymentMethod.NONE;
 	}
 
 	public BasePayment(float sum, PaymentMethod paymentMethod) {
