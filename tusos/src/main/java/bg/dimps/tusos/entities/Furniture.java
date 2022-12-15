@@ -16,14 +16,13 @@ public class Furniture {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private FurnitureType type;
+    private String furnitureName;
+
     private boolean isBroken;
 
-    public Furniture(Room room, FurnitureType type, boolean isBroken) {
+    public Furniture(Room room, String furnitureName, boolean isBroken) {
         this.room = room;
-        this.type = type;
+        this.furnitureName = furnitureName;
         this.isBroken = isBroken;
     }
 
@@ -42,12 +41,12 @@ public class Furniture {
         this.room = room;
     }
 
-    public FurnitureType getType() {
-        return type;
+    public String getFurnitureName() {
+        return furnitureName;
     }
 
-    public void setType(FurnitureType type) {
-        this.type = type;
+    public void setFurnitureName(String furnitureName) {
+        this.furnitureName = furnitureName;
     }
 
     public boolean isBroken() {

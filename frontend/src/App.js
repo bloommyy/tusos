@@ -7,6 +7,7 @@ import { appMiddleware } from "./middlewares/app";
 import { apiMiddleware } from "./middlewares/core";
 import AuthRoute from './components/AuthRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';

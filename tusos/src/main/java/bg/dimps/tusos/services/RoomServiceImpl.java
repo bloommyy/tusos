@@ -3,7 +3,6 @@ package bg.dimps.tusos.services;
 import bg.dimps.tusos.entities.*;
 import bg.dimps.tusos.repositories.ElectricApplianceRepository;
 import bg.dimps.tusos.repositories.FurnitureRepository;
-import bg.dimps.tusos.repositories.FurnitureTypeRepository;
 import bg.dimps.tusos.repositories.RoomRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +11,11 @@ import java.util.List;
 @Service
 public class RoomServiceImpl implements RoomService{
     private final RoomRepository roomRepository;
-    private final FurnitureTypeRepository furnitureTypeRepository;
     private final ElectricApplianceRepository electricApplianceRepository;
     private final FurnitureRepository furnitureRepository;
 
-    public RoomServiceImpl(RoomRepository roomRepository, FurnitureTypeRepository furnitureTypeRepository, ElectricApplianceRepository electricApplianceRepository, FurnitureRepository furnitureRepository) {
+    public RoomServiceImpl(RoomRepository roomRepository, ElectricApplianceRepository electricApplianceRepository, FurnitureRepository furnitureRepository) {
         this.roomRepository = roomRepository;
-        this.furnitureTypeRepository = furnitureTypeRepository;
         this.electricApplianceRepository = electricApplianceRepository;
         this.furnitureRepository = furnitureRepository;
     }
@@ -64,16 +61,8 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public boolean addFurnitureType(FurnitureType furnitureType) {
-        furnitureTypeRepository.save(furnitureType);
-        return true;
-    }
-
-    @Override
-    public boolean addNewFurniture(Long roomId, Furniture furniture, Long typeId) {
-        FurnitureType furnitureType = furnitureTypeRepository.findFurnitureTypeById(typeId);
-        if (furniture != null && furnitureType != null){
-            furniture.setType(furnitureType);
+    public boolean addNewFurniture(Long roomId, Furniture furniture) {
+        if (furniture != null){
             Room currentRoom = getRoomById(roomId);
             furniture.setRoom(currentRoom);
             currentRoom.addFurniture(furniture);

@@ -12,8 +12,7 @@ public interface RoomService {
     List<Room> getAllDormRooms(Long dormId);
     List<Student> getRoomStudents(Long roomId);
     List<Furniture> getRoomFurniture(Long roomId);
-    boolean addFurnitureType(FurnitureType furnitureType);
-    boolean addNewFurniture(Long roomId, Furniture furniture, Long typeId);
+    boolean addNewFurniture(Long roomId, Furniture furniture);
     boolean removeFurniture(Long furnitureId);
     boolean addNewElectricAppliance(Long roomId, ElectricAppliances electricAppliance);
     boolean removeElectricAppliance(Long electricApplianceId);

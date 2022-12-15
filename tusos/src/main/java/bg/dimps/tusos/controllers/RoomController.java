@@ -3,6 +3,7 @@ package bg.dimps.tusos.controllers;
 import bg.dimps.tusos.entities.*;
 import bg.dimps.tusos.services.RoomService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,14 +18,14 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    //pre authorize (has role host)
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @GetMapping("/fetch")
     public ResponseEntity<?> getAllRoomsInDorm(Long dormId){
         List<Room> rooms = roomService.getAllDormRooms(dormId);
         return ResponseEntity.ok(rooms);
     }
 
-    //pre authorize (has role host)
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @PostMapping("/addRoom")
     public ResponseEntity<?> addRoom(Long dormId, @RequestBody Room room){
         if (room != null){
@@ -35,7 +36,7 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
-    //pre authorize (has role host)
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @PostMapping("/addStudent")
     public ResponseEntity<?> addStudent(Long roomId, @RequestBody Student student){
         Room currentRoom = roomService.getRoomById(roomId);
@@ -46,27 +47,18 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
-    //pre authorize (has role host)
-    @PostMapping("/addFurnitureType")
-    public ResponseEntity<?> addFurnitureType(@RequestBody FurnitureType furnitureType){
-        if (furnitureType != null){
-            roomService.addFurnitureType(furnitureType);
-            return ResponseEntity.ok("Furniture type added successfully!");
-        }
-        return ResponseEntity.badRequest().body("Cannot save null object");
-    }
 
-    //pre authorize (has role host or student)
+    @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_STUDENT')")
     @PostMapping("/addFurniture")
-    public ResponseEntity<?> addFurniture(Long roomId, Long typeId, @RequestBody Furniture furniture){
+    public ResponseEntity<?> addFurniture(Long roomId, @RequestBody Furniture furniture){
         if (furniture != null){
-            roomService.addNewFurniture(roomId, furniture, typeId);
+            roomService.addNewFurniture(roomId, furniture);
             return ResponseEntity.ok("Furniture added successfully!");
         }
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
-    //pre authorize (has role host or student)
+    @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_STUDENT')")
     @DeleteMapping("/removeFurniture")
     public ResponseEntity<?> removeFurniture(Long furnitureId){
         if (roomService.removeFurniture(furnitureId)){
@@ -75,7 +67,7 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot remove item");
     }
 
-    //pre authorize (has role host or student)
+    @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_STUDENT')")
     @PostMapping("/addElectricAppliance")
     public ResponseEntity<?> addElectricAppliance(Long roomId, @RequestBody ElectricAppliances electricAppliance){
         if (electricAppliance != null){
@@ -85,7 +77,7 @@ public class RoomController {
         return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
-    //pre authorize (has role host or student)
+    @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_STUDENT')")
     @DeleteMapping("/removeElectricAppliance")
     public ResponseEntity<?> removeElectricAppliance(Long applianceId){
         if (roomService.removeElectricAppliance(applianceId)){
