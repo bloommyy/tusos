@@ -1,13 +1,11 @@
 package bg.dimps.tusos.entities;
 
-import bg.dimps.tusos.security.pojos.request.SignupRequest;
+import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,14 +39,9 @@ public class Student extends User {
         this.facultyNumber = facultyNumber;
     }
 
-    public Student (SignupRequest signupRequest, String password) {
-        this.firstName = signupRequest.getFirstName();
-        this.middleName = signupRequest.getMiddleName();
-        this.lastName = signupRequest.getLastName();
-        this.facultyNumber = signupRequest.getFacultyNum();
-        this.phoneNumber = signupRequest.getPhoneNumber();
-        this.email = signupRequest.getEmail();
-        this.password = password;
+    public Student (StudentSignupRequest studentSignupRequest, String password) {
+        super(studentSignupRequest, password);
+        this.facultyNumber = studentSignupRequest.getFacultyNum();
         this.room = null;
         this.obligations = new ArrayList<>();
     }

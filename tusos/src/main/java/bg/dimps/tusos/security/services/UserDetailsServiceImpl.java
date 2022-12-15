@@ -1,6 +1,6 @@
 package bg.dimps.tusos.security.services;
 
-import bg.dimps.tusos.entities.Student;
+import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Student user = userRepository.findStudentByEmail(email)
+        User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + email));
 
         return UserDetailsImpl.build(user);

@@ -16,8 +16,9 @@ export const cancelApiRequest = () => {
     };
 };
 
-export const apiSuccess = ({ response }) => ({
+export const apiSuccess = ({ url, response }) => ({
     type: API_SUCCESS,
+    url: url,
     payload: response
 });
 

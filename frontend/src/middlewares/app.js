@@ -1,5 +1,5 @@
 import { apiRequest } from "../actions/api";
-import { LOGIN } from "../actions/auth";
+import { LOGIN, REGISTER } from "../actions/auth";
 
 const SERVER_URL = `http://localhost:8080`;
 
@@ -18,6 +18,24 @@ export const appMiddleware = () => next => action => {
                 })
             )
             break;
+        }
+        case REGISTER: {
+            next(
+                apiRequest({
+                    url: `${SERVER_URL}/student/register`,
+                    method: "POST",
+                    data: {
+                        firstName: action.payload.firstName,
+                        middleName: action.payload.middleName,
+                        lastName: action.payload.lastName,
+                        facultyNum: action.payload.facultyNumber,
+                        email: action.payload.email,
+                        password: action.payload.password,
+                        phoneNumber: action.payload.phoneNumber,
+                        role: ["ROLE_STUDENT"]
+                    }
+                })
+            )
         }
         default:
             break;

@@ -1,5 +1,7 @@
 package bg.dimps.tusos.entities;
 
+import bg.dimps.tusos.security.pojos.request.UserSignupRequest;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +36,16 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User(UserSignupRequest userSignupRequest, String password)
+    {
+        this.firstName = userSignupRequest.getFirstName();
+        this.middleName = userSignupRequest.getMiddleName();
+        this.lastName = userSignupRequest.getLastName();
+        this.phoneNumber = userSignupRequest.getPhoneNumber();
+        this.email = userSignupRequest.getEmail();
+        this.password = password;
     }
 
     public User() {

@@ -46,11 +46,11 @@ export default connect(({ error }) => ({ error }), { login })(props => {
                                         <form>
                                             <div className="form-outline mb-4">
                                                 <label className="form-label">Email</label>
-                                                <input type="text" onChange={value => setEmail(value.target.value)} id="emailInput" className="form-control" />
+                                                <input type="text" onChange={input => setEmail(input.target.value)} id="emailInput" className="form-control" />
                                             </div>
                                             <div className="form-outline mb-4">
                                                 <label className="form-label">Парола</label>
-                                                <input type="password" onChange={value => setPassword(value.target.value)} id="passwordInput" className="form-control" />
+                                                <input type="password" onChange={input => setPassword(input.target.value)} id="passwordInput" className="form-control" />
                                             </div>
 
                                             <button type="submit" onClick={btnOnClick} className="btn btn-primary btn-block">
@@ -59,8 +59,7 @@ export default connect(({ error }) => ({ error }), { login })(props => {
 
                                             <div className="form-outline mt-4">
 
-                                                {/*add link to registerPage.js in href property*/}
-                                                <p>За нов потребител: <a href="#!" className="link-info"> Регистрация</a></p>
+                                                <p>За нов потребител: <a href="register" className="link-info"> Регистрация</a></p>
                                             </div>
                                         </form>
                                     </div>

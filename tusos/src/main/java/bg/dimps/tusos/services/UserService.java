@@ -1,12 +1,11 @@
 package bg.dimps.tusos.services;
 
-import bg.dimps.tusos.entities.Student;
-import bg.dimps.tusos.security.pojos.request.SignupRequest;
-import org.springframework.stereotype.Service;
+import bg.dimps.tusos.entities.User;
+import bg.dimps.tusos.security.pojos.request.UserSignupRequest;
 
-@Service
-public interface UserService{
-    void saveUser(SignupRequest signupRequest);
-    Student getStudent(String facultyNumber);
-    String checkRequest(SignupRequest signupRequest);
+import java.util.Set;
+
+public interface UserService {
+    String checkRequest(UserSignupRequest studentSignupRequest);
+    void setRoles(User user, Set<String> strRoles);
 }
