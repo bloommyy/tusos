@@ -26,15 +26,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/student")
 public class StudentController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
+    // TODO: Да преместя всички userRepository към userService
 
     private final UserRepository userRepository;
     private final StudentService studentService;
 
-    public StudentController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository, StudentService studentService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
+    public StudentController(UserRepository userRepository, StudentService studentService) {
         this.userRepository = userRepository;
         this.studentService = studentService;
     }
@@ -54,26 +51,6 @@ public class StudentController {
             studentService.saveStudent(request);
         }
         return ResponseEntity.ok("User registered successfully!");
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                roles));
     }
 
     @DeleteMapping("/delete")

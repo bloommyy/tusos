@@ -3,7 +3,6 @@ package bg.dimps.tusos.controllers;
 import bg.dimps.tusos.security.pojos.request.HostSignupRequest;
 import bg.dimps.tusos.services.HostService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,12 +26,5 @@ public class HostController {
             hostService.saveHost(hostSignupRequest);
         }
         return ResponseEntity.ok("User registered successfully!");
-    }
-
-    @GetMapping("/test")
-    @PreAuthorize("hasRole('ROLE_HOST')")
-    public ResponseEntity<?> test()
-    {
-        return ResponseEntity.ok("eto we 6efe");
     }
 }
