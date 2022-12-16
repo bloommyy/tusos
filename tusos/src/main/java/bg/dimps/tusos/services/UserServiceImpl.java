@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 @NoArgsConstructor
-public class UserServiceImpl implements UserService{
+public abstract class UserServiceImpl implements UserService{
     RoleRepository roleRepository;
     Validations validations;
     public UserServiceImpl(RoleRepository roleRepository) {
@@ -22,9 +22,8 @@ public class UserServiceImpl implements UserService{
     public String checkRequest(UserSignupRequest studentSignupRequest) {
         return null;
     }
-
     @Override
-    public void validateStudent(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String facultyNumber, String repeatedPassword) {
+    public void validateUser(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String repeatedPassword, String requestRepeatedPassword) {
         if(!validations.validateEmail(email))
             throw new RuntimeException("Invalid email");
         if(!validations.validatePassword(password))
@@ -37,8 +36,6 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException("Invalid last name");
         if(!validations.validatePhoneNumber(phoneNumber))
             throw new RuntimeException("Invalid phone number");
-        if(!validations.validateFacultyNumber(facultyNumber))
-            throw new RuntimeException("Invalid faculty number");
         if(!validations.validateRepeatedPassword(repeatedPassword))
             throw new RuntimeException("Invalid repeated password");
     }
@@ -67,4 +64,5 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
     }
 
+    public abstract void validateStudent(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String repeatedPassword, String requestRepeatedPassword);
 }

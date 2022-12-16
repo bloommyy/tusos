@@ -24,6 +24,12 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
     }
 
     @Override
+    public void validateStudent(String email, String password, String firstName, String middleName, String lastName, String facultyNumber, String phoneNumber, String repeatedPassword) {
+        if(!validations.validateFacultyNumber(facultyNumber))
+            throw new RuntimeException("Invalid faculty number");
+    }
+
+    @Override
     public void saveStudent(StudentSignupRequest studentSignupRequest) {
         Student student = new Student(studentSignupRequest, passwordEncoder.encode(studentSignupRequest.getPassword()));
 

@@ -7,6 +7,6 @@ import java.util.Set;
 
 public interface UserService {
     String checkRequest(UserSignupRequest studentSignupRequest);
-    void validateStudent(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String facultyNumber, String repeatedPassword);
+    void validateUser(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String repeatedPassword, String requestRepeatedPassword);
     void setRoles(User user, Set<String> strRoles);
 }
