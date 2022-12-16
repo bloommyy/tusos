@@ -23,7 +23,7 @@ function StudentHomeMenu({ btnOnClick }) {
                 </div>
                 <div className="card-body">
                     <a href="#">
-                        <div className="panel-body"><img src={fridge} className="img-responsive" width="40%" alt="Image" /></div>
+                        <div className="panel-body"><img src={fridge} onClick={btnOnClick} className="img-responsive" width="40%" alt="Image" /></div>
                     </a>
                 </div>
             </div>

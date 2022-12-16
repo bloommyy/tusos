@@ -12,9 +12,9 @@ public interface RoomService {
     List<Room> getAllDormRooms(Long dormId);
     List<Student> getRoomStudents(Long roomId);
     List<Furniture> getRoomFurniture(Long roomId);
-    boolean addNewFurniture(Long roomId, Furniture furniture);
+    boolean addNewFurniture(Furniture furniture);
     boolean removeFurniture(Long furnitureId);
-    boolean addNewElectricAppliance(Long roomId, ElectricAppliances electricAppliance);
+    boolean addNewElectricAppliance(ElectricAppliances electricAppliance);
     boolean removeElectricAppliance(Long electricApplianceId);
     boolean addStudent(Long roomId, Student student);
 }

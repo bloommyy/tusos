@@ -40,7 +40,7 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public Room getRoomById(Long roomId) {
-        return roomRepository.findById(roomId).orElse(null);
+        return roomRepository.findRoomById(roomId);
     }
 
     @Override
@@ -61,9 +61,9 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public boolean addNewFurniture(Long roomId, Furniture furniture) {
+    public boolean addNewFurniture(Furniture furniture) {
         if (furniture != null){
-            Room currentRoom = getRoomById(roomId);
+            Room currentRoom = getRoomById(furniture.getRoom().getId());
             furniture.setRoom(currentRoom);
             currentRoom.addFurniture(furniture);
             furnitureRepository.save(furniture);
@@ -83,9 +83,9 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public boolean addNewElectricAppliance(Long roomId, ElectricAppliances electricAppliance) {
+    public boolean addNewElectricAppliance( ElectricAppliances electricAppliance) {
         if (electricAppliance!=null){
-            Room currentRoom = getRoomById(roomId);
+            Room currentRoom = electricAppliance.getRoom();
             currentRoom.addElectricAppliance(electricAppliance);
             electricAppliance.setRoom(currentRoom);
             electricApplianceRepository.save(electricAppliance);

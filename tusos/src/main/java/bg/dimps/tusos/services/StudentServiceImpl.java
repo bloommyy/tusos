@@ -39,6 +39,11 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
     }
 
     @Override
+    public Student getStudentByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public String checkRequest(UserSignupRequest studentSignupRequest) {
         if (userRepository.existsByEmail(studentSignupRequest.getEmail())) {
             return "Email is already taken!";

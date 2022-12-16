@@ -1,14 +1,19 @@
 import { useState } from "react";
 import AddFurnitureModal from "./AddFurnitureModal";
 import StudentHomeMenu from "../components/StudentHomeMenu";
+import AddApplianceModal from "./AddApplianceModal";
 
 function StudentHomePage() {
     const userJSON = JSON.parse(localStorage.getItem('user'));
 
     const [furnitureFlag, setFurnitureFlag] = useState(false);
+    const [applianceFlag, setApplianceFlag] = useState(false);
 
     function btnOnClick() {
         setFurnitureFlag(!furnitureFlag);
+    }
+    function btnApplianceOnClick() {
+        setApplianceFlag(!applianceFlag);
     }
 
     return (<div>

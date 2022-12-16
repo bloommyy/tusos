@@ -40,6 +40,10 @@ public class Room {
     public Room() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Long getDormID() {
         return dormID;
     }
