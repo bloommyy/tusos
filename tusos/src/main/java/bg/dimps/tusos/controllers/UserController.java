@@ -4,6 +4,8 @@ import bg.dimps.tusos.security.jwt.JwtUtils;
 import bg.dimps.tusos.security.pojos.request.LoginRequest;
 import bg.dimps.tusos.security.pojos.response.JwtResponse;
 import bg.dimps.tusos.security.services.UserDetailsImpl;
+import bg.dimps.tusos.services.StudentService;
+import bg.dimps.tusos.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +32,6 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 

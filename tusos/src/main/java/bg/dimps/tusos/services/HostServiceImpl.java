@@ -1,7 +1,6 @@
 package bg.dimps.tusos.services;
 
 import bg.dimps.tusos.entities.Host;
-import bg.dimps.tusos.entities.Student;
 import bg.dimps.tusos.repositories.HostRepository;
 import bg.dimps.tusos.repositories.RoleRepository;
 import bg.dimps.tusos.security.pojos.request.HostSignupRequest;
@@ -41,10 +40,14 @@ public class HostServiceImpl extends UserServiceImpl implements HostService {
     }
 
     @Override
-    public String checkRequest(UserSignupRequest studentSignupRequest) {
-        if (hostRepository.existsByEmail(studentSignupRequest.getEmail())) {
-            return "Email is already taken!";
-        }
-        return "ok";
+    public void checkExistenceByEmail(String email) {
+        if (hostRepository.existsByEmail(email))
+            throw new RuntimeException("Email is already taken!");
+    }
+
+    @Override
+    public void validateRequest(HostSignupRequest hostSignupRequest)
+    {
+        super.validateRequest(hostSignupRequest);
     }
 }
