@@ -4,7 +4,7 @@ import bg.dimps.tusos.entities.Student;
 import bg.dimps.tusos.repositories.RoleRepository;
 import bg.dimps.tusos.repositories.UserRepository;
 import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
-import bg.dimps.tusos.security.pojos.request.UserSignupRequest;
+import bg.dimps.tusos.utils.Validations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +24,10 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
     }
 
     @Override
-    public void validateStudent(String email, String password, String firstName, String middleName, String lastName, String facultyNumber, String phoneNumber, String repeatedPassword) {
-        if(!validations.validateFacultyNumber(facultyNumber))
+    public void validateRequest(StudentSignupRequest studentSignupRequest) {
+        super.validateRequest(studentSignupRequest);
+
+        if(!Validations.validateFacultyNumber(studentSignupRequest.getFacultyNum()))
             throw new RuntimeException("Invalid faculty number");
     }
 
@@ -45,10 +47,8 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
     }
 
     @Override
-    public String checkRequest(UserSignupRequest studentSignupRequest) {
-        if (userRepository.existsByEmail(studentSignupRequest.getEmail())) {
-            return "Email is already taken!";
-        }
-        return "ok";
+    public void checkExistenceByEmail(String email) {
+        if (userRepository.existsByEmail(email))
+            throw new RuntimeException("Email is already taken!");
     }
 }

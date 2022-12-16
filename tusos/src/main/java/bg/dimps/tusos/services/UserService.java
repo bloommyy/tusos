@@ -2,11 +2,12 @@ package bg.dimps.tusos.services;
 
 import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.security.pojos.request.UserSignupRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;
 
 public interface UserService {
-    String checkRequest(UserSignupRequest studentSignupRequest);
-    void validateUser(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String repeatedPassword, String requestRepeatedPassword);
+    void checkExistenceByEmail(String email);
+    void validateRequest(UserSignupRequest userSignupRequest);
     void setRoles(User user, Set<String> strRoles);
 }

@@ -5,7 +5,6 @@ import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.repositories.UserRepository;
 import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
 import bg.dimps.tusos.services.StudentService;
-import bg.dimps.tusos.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +34,14 @@ public class StudentController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerStudent(@RequestBody StudentSignupRequest request) {
-        studentService.validateStudent(request.getEmail(), request.getPassword(), request.getFirstName(), request.getMiddleName(), request.getLastName(), request.getPhoneNumber(), request.getFacultyNum(), request.getRepeatedPassword());
-        String checkRequest = studentService.checkRequest(request);
-        if (checkRequest != "ok") {
-            return ResponseEntity.badRequest().body("User already exists");
-        } else {
+        try {
+            studentService.validateRequest(request);
+            studentService.checkExistenceByEmail(request.getEmail());
             studentService.saveStudent(request);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok("User registered successfully!");
+        return ResponseEntity.ok("Успешно се регистрирахте!");
     }
 
     @DeleteMapping("/delete")
