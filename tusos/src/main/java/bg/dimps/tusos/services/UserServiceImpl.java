@@ -24,8 +24,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void setUser(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String facultyNumber, String repeatedPassword) {
-
+    public void validateStudent(String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String facultyNumber, String repeatedPassword) {
         if(!validations.validateEmail(email))
             throw new RuntimeException("Invalid email");
         if(!validations.validatePassword(password))

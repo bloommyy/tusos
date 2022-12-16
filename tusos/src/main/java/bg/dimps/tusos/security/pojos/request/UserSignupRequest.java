@@ -30,6 +30,10 @@ public abstract class UserSignupRequest {
     private String password;
 
     @NotBlank
+    @Size(min=6, max = 40)
+    private String repeatedPassword;
+
+    @NotBlank
     @Size(min = 10, max = 10)
     private String phoneNumber;
 
@@ -87,5 +91,13 @@ public abstract class UserSignupRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRepeatedPassword() {
+        return repeatedPassword;
+    }
+
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
     }
 }

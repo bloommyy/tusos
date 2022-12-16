@@ -3,24 +3,14 @@ package bg.dimps.tusos.controllers;
 import bg.dimps.tusos.entities.Student;
 import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.repositories.UserRepository;
-import bg.dimps.tusos.security.jwt.JwtUtils;
-import bg.dimps.tusos.security.pojos.request.LoginRequest;
 import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
-import bg.dimps.tusos.security.pojos.response.JwtResponse;
-import bg.dimps.tusos.security.services.UserDetailsImpl;
 import bg.dimps.tusos.services.StudentService;
 import bg.dimps.tusos.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -44,9 +34,8 @@ public class StudentController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerStudent(@RequestBody StudentSignupRequest request, String email, String password, String firstName, String middleName, String lastName, String phoneNumber, String facultyNumber, String repeatedPassword) {
-        UserServiceImpl userService = new UserServiceImpl();
-        userService.setUser(email, password, firstName, middleName, lastName, phoneNumber, facultyNumber, repeatedPassword);
+    public ResponseEntity<?> registerStudent(@RequestBody StudentSignupRequest request) {
+        studentService.validateStudent(request.getEmail(), request.getPassword(), request.getFirstName(), request.getMiddleName(), request.getLastName(), request.getPhoneNumber(), request.getFacultyNum(), request.getRepeatedPassword());
         String checkRequest = studentService.checkRequest(request);
         if (checkRequest != "ok") {
             return ResponseEntity.badRequest().body("User already exists");
@@ -57,16 +46,16 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete")
-        public String deleteStudent(String facultyNumber){
-            List<Student> result = userRepository.findByFacultyNumber(facultyNumber);
+    public String deleteStudent(String facultyNumber) {
+        List<Student> result = userRepository.findByFacultyNumber(facultyNumber);
 
-            if(result.isEmpty())
-                return "Student not found";
-            for(Student student:result){
-                userRepository.delete(student);
-            }
-            return "Student with facultyNumber - " + facultyNumber + " was deleted";
+        if (result.isEmpty())
+            return "Student not found";
+        for (Student student : result) {
+            userRepository.delete(student);
         }
+        return "Student with facultyNumber - " + facultyNumber + " was deleted";
+    }
 
 
 }
