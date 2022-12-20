@@ -1,10 +1,16 @@
-import { useState } from "react";
-import AddFurnitureModal from "./AddFurnitureModal";
-import StudentHomeMenu from "../components/StudentHomeMenu";
-import AddApplianceModal from "./AddApplianceModal";
+import { useEffect, useState } from "react";
+import StudentHomeMenusWrapper from "../components/studentComponents/StudentHomeMenusWrapper";
+import AddApplianceModal from "../components/studentComponents/AddApplianceModal";
+import { hasRoom } from "../actions/getRequests";
+import StudentHomeNoRoom from "../components/studentComponents/StudentHomeNoRoom";
 
 function StudentHomePage() {
-    const userJSON = JSON.parse(localStorage.getItem('user'));
+    const [studentHasRoom, setStudentHasRoom] = useState(false)
+
+    useEffect(() => {
+        hasRoom().then((value) => setStudentHasRoom(value))
+        console.log()
+    })
 
     const [furnitureFlag, setFurnitureFlag] = useState(false);
     const [applianceFlag, setApplianceFlag] = useState(false);
@@ -33,8 +39,7 @@ function StudentHomePage() {
                 <h1 className="display-4 fw-normal">Студентски общежития и столове</h1>
                 <p className="fs-5 text-muted">Можете да управлявате своите ресурси и да плащате таксите си онлайн в портала на СОС, като изберете от предоставените опции</p>
             </div>
-            {!furnitureFlag && <StudentHomeMenu btnOnClick={btnOnClick} />}
-            {furnitureFlag && <AddFurnitureModal closed={btnOnClick} />}
+            {studentHasRoom ? <StudentHomeMenusWrapper furnitureFlag={furnitureFlag} btnOnClick={btnOnClick} /> : <StudentHomeNoRoom />}
         </div>
     </div>)
 }

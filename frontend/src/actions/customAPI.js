@@ -8,16 +8,17 @@ export const addFurniture = furniture => {
         payload: furniture
     }
 }
+
 export const addAppliance = appliance => {
     return {
         type: ADD_APPLIANCE,
         payload: appliance
     }
 }
+
 export const viewFurniture = furnitureList => {
     return {
         type: VIEW_FURNITURE,
         payload: furnitureList
     }
-    
 }

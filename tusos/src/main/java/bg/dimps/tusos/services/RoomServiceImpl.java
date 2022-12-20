@@ -115,5 +115,10 @@ public class RoomServiceImpl implements RoomService{
         return false;
     }
 
+    @Override
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
 
 }

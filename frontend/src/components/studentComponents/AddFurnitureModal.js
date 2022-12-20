@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { addFurniture, viewFurniture } from '../actions/roomOperations';
+import { addFurniture, viewFurniture } from '../../actions/customAPI';
 
 export default connect(({ error }) => ({ error }), { addFurniture, viewFurniture })((props) => {
     const [furnitureName, setFurnitureName] = useState("");

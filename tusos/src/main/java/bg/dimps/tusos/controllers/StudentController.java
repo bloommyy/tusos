@@ -77,16 +77,29 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete")
-        public String deleteStudent(String facultyNumber){
-            List<Student> result = userRepository.findByFacultyNumber(facultyNumber);
+    public String deleteStudent(String facultyNumber) {
+        List<Student> result = userRepository.findByFacultyNumber(facultyNumber);
 
-            if(result.isEmpty())
-                return "Student not found";
-            for(Student student:result){
-                userRepository.delete(student);
-            }
-            return "Student with facultyNumber - " + facultyNumber + " was deleted";
+        if (result.isEmpty())
+            return "Student not found";
+        for (Student student : result) {
+            userRepository.delete(student);
         }
+        return "Student with facultyNumber - " + facultyNumber + " was deleted";
+    }
 
+    @GetMapping("/hasRoom")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public ResponseEntity<?> hasRoom()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String studentEmail = authentication.getName();
+        Student student = studentService.getStudentByEmail(studentEmail);
+        if (student == null )
+            return ResponseEntity.badRequest().body("Не е намерен студент!");
+        if (student.getRoom() == null)
+            return ResponseEntity.ok(false);
 
+        return ResponseEntity.ok(true);
+    }
 }

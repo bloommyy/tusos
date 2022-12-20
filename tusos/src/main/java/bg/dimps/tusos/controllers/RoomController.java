@@ -25,10 +25,17 @@ public class RoomController {
         this.studentService = studentService;
     }
 
-    @PreAuthorize("hasRole('ROLE_HOST')")
+    @PreAuthorize("hasAnyRole('ROLE_HOST')")
     @GetMapping("/fetch")
     public ResponseEntity<?> getAllRoomsInDorm(Long dormId) {
         List<Room> rooms = roomService.getAllDormRooms(dormId);
+        return ResponseEntity.ok(rooms);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_HOST','ROLE_STUDENT')")
+    @GetMapping("/fetchAllRooms")
+    public ResponseEntity<?> getAllRooms() {
+        List<Room> rooms = roomService.getAllRooms();
         return ResponseEntity.ok(rooms);
     }
 

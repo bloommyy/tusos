@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "dorm_id"),
+        @UniqueConstraint(columnNames = "room_number")
+})
 public class Room {
 
     @Id

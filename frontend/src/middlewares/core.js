@@ -3,9 +3,9 @@ import { API_REQUEST, apiError, apiSuccess } from "../actions/api";
 
 const user = JSON.parse(localStorage.getItem('user'));
 
-if (user && user.accessToken) 
-     axios.defaults.headers.common = {'Authorization': `Bearer ${user.accessToken}`}
-  
+if (user && user.accessToken)
+    axios.defaults.headers.common = { 'Authorization': `Bearer ${user.accessToken}` }
+
 export const apiMiddleware = ({ dispatch }) => next => action => {
     next(action);
 

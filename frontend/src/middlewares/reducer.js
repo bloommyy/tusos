@@ -11,13 +11,14 @@ export default (
 ) => {
     switch (action.type) {
         case API_SUCCESS:
-            switch (action.url) {
-                case "http://localhost:8080/student/login":
+            let apiURL = action.url.substring(action.url.lastIndexOf('/') + 1)
+            switch (apiURL) {
+                case "login":
                     {
                         localStorage.setItem("user", JSON.stringify(action.payload));
                         return { ...state, isAuthUser: true, user: action.payload };
                     }
-                case "http://localhost:8080/student/register":
+                case "register":
                     {
                         alert(action.payload);
                         return { ...state, isAuthUser: false, user: {} };

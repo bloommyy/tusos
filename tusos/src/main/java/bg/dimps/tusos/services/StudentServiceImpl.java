@@ -8,7 +8,9 @@ import bg.dimps.tusos.security.pojos.request.UserSignupRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @Service
 public class StudentServiceImpl extends UserServiceImpl implements StudentService {
@@ -40,7 +42,11 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
 
     @Override
     public Student getStudentByEmail(String email) {
-        return userRepository.findByEmail(email);
+        Optional<Student> student = userRepository.findByEmail(email);
+        if (student.isPresent())
+            return student.get();
+
+        return null;
     }
 
     @Override

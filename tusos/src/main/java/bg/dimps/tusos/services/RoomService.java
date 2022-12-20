@@ -17,4 +17,5 @@ public interface RoomService {
     boolean addNewElectricAppliance(ElectricAppliances electricAppliance);
     boolean removeElectricAppliance(Long electricApplianceId);
     boolean addStudent(Long roomId, Student student);
+    List<Room> getAllRooms();
 }

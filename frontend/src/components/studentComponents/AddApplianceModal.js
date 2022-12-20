@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { addAppliance } from '../actions/roomOperations';
+import { addAppliance } from '../../actions/customAPI'
 
-export default connect(({ error }) => ({ error }), { addAppliance})((props)  => {
-    let closed ;
+export default connect(({ error }) => ({ error }), { addAppliance })((props) => {
+    let closed;
     const [applianceName, setApplianceName] = useState("");
 
     function btnOnClick(e) {
