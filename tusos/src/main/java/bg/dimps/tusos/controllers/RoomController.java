@@ -74,6 +74,9 @@ public class RoomController {
     public ResponseEntity<?> getAllRoomFurniture() {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         Student currentStudent = studentService.getStudentByEmail(currentUserEmail);
+        if (currentStudent.getRoom() == null)
+            return ResponseEntity.badRequest().body("Не сте в стая!");
+
         Long roomId = currentStudent.getRoom().getId();
         Room room = roomService.getRoomById(roomId);
         if (room != null){

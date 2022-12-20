@@ -20,7 +20,6 @@ export default connect(({ error }) => ({ error }), { login })(props => {
             return;
         }
 
-
         props.login({ email, password });
     }
 

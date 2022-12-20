@@ -24,7 +24,8 @@ export default (
                     }
             }
         case API_ERROR:
-            alert("Невалиден e-mail или парола.")
+            alert("Възникна грешка! " + action.payload)
+            console.error(action.payload)
             return { ...state, error: action.payload }
         case LOGOUT:
             localStorage.removeItem("user");
