@@ -63,7 +63,7 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public boolean addNewFurniture(Furniture furniture) {
         if (furniture != null){
-            Room currentRoom = getRoomById(furniture.getRoom().getId());
+            Room currentRoom = getRoomById(furniture.getRoom().getRoomNumber());
             furniture.setRoom(currentRoom);
             currentRoom.addFurniture(furniture);
             furnitureRepository.save(furniture);

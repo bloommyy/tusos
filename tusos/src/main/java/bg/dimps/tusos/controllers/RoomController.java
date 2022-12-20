@@ -89,7 +89,7 @@ public class RoomController {
     public ResponseEntity<?> addFurniture(@RequestBody AddFurnitureRequest request) {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         Student currentStudent = studentService.getStudentByEmail(currentUserEmail);
-        Long roomId = currentStudent.getRoom().getId();
+        Long roomId = currentStudent.getRoom().getRoomNumber(); //TODO: Това тук после не е по roomNumber, а по ID?
         if (request != null) {
             Room room = roomService.getRoomById(roomId);
             System.out.println(room.getRoomNumber());
@@ -107,7 +107,7 @@ public class RoomController {
         if (currentStudent.getRoom() == null)
             return ResponseEntity.badRequest().body("Не сте в стая!");
 
-        Long roomId = currentStudent.getRoom().getId();
+        Long roomId = currentStudent.getRoom().getRoomNumber();
         Room room = roomService.getRoomById(roomId);
         if (room != null){
             return ResponseEntity.ok(room.getFurnitures());
@@ -129,7 +129,7 @@ public class RoomController {
     public ResponseEntity<?> addElectricAppliance(@RequestBody ElectricApplianceRequest request) {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         Student currentStudent = studentService.getStudentByEmail(currentUserEmail);
-        Long roomId = currentStudent.getRoom().getId();
+        Long roomId = currentStudent.getRoom().getRoomNumber();
         if (request != null) {
             Room room = roomService.getRoomById(roomId);
             roomService.addNewElectricAppliance(new ElectricAppliances(room, request.getApplianceName()));

@@ -1,8 +1,10 @@
 package bg.dimps.tusos.entities;
 
+import bg.dimps.tusos.security.pojos.request.BulkAddRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,6 +41,15 @@ public class Room {
         this.furnitures = furnitures;
         this.electricAppliances = electricAppliances;
         this.description = description;
+    }
+
+    public Room(Long dormID, Long roomNumber) {
+        this.dormID = dormID;
+        this.roomNumber = roomNumber;
+        this.students = new ArrayList<>();
+        this.furnitures = new ArrayList<>();
+        this.electricAppliances = new ArrayList<>();
+        this.description = "";
     }
 
     public Room() {
