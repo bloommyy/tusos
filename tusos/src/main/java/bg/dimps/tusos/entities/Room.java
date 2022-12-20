@@ -7,8 +7,8 @@ import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "dorm_id"),
-        @UniqueConstraint(columnNames = "room_number")
+        @UniqueConstraint(columnNames = "room_number"),
+        @UniqueConstraint(columnNames = "dorm_id")
 })
 public class Room {
 
@@ -42,10 +42,6 @@ public class Room {
     }
 
     public Room() {
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Long getDormID() {

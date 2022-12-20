@@ -3,6 +3,7 @@ package bg.dimps.tusos.controllers;
 import bg.dimps.tusos.entities.*;
 import bg.dimps.tusos.pojos.AddFurnitureRequest;
 import bg.dimps.tusos.pojos.ElectricApplianceRequest;
+import bg.dimps.tusos.security.pojos.request.BulkAddRequest;
 import bg.dimps.tusos.services.RoomService;
 import bg.dimps.tusos.services.StudentService;
 import bg.dimps.tusos.services.UserService;
@@ -25,7 +26,7 @@ public class RoomController {
         this.studentService = studentService;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_HOST')")
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @GetMapping("/fetch")
     public ResponseEntity<?> getAllRoomsInDorm(Long dormId) {
         List<Room> rooms = roomService.getAllDormRooms(dormId);
@@ -47,6 +48,28 @@ public class RoomController {
             return ResponseEntity.ok("Room added successfully!");
         }
         return ResponseEntity.badRequest().body("Cannot save null object");
+    }
+
+    @PreAuthorize("hasRole('ROLE_HOST')")
+    @PostMapping("/addAllDormRooms")
+    public ResponseEntity<?> addAllDormRooms(@RequestBody BulkAddRequest bulkAddRequest) {
+        int totalNumCount = 0;
+        try {
+            if (!roomService.getAllDormRooms(bulkAddRequest.getDormId()).isEmpty())
+                throw new Exception("Съществува поне една стая в този блок.");
+
+            for (Long floor = 0L; floor < bulkAddRequest.getFloorCount(); floor++) {
+                for (Long roomNumber = 1L; roomNumber <= bulkAddRequest.getRoomsPerFloorCount(); roomNumber++) {
+                    Long processedRoomNumber = floor * 100 + roomNumber;
+                    roomService.saveRoom(new Room(bulkAddRequest.getDormId(), processedRoomNumber));
+                    totalNumCount++;
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Нещо се обърка. " + e.getMessage());
+        }
+
+        return ResponseEntity.ok(totalNumCount + " стаи упешно добавени!");
     }
 
     @PreAuthorize("hasRole('ROLE_HOST')")

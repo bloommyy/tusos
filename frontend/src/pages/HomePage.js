@@ -1,4 +1,5 @@
 import StudentHomePage from './StudentHomePage'
+import HostHomePage from './HostHomePage';
 
 function HomePage() {
     const userJSON = JSON.parse(localStorage.getItem('user'));
@@ -7,7 +8,7 @@ function HomePage() {
     return (
         <div>
             {isStudent && <StudentHomePage />}
-            {/* {!isStudent && <TeacherHomePage />} */}
+            {!isStudent && <HostHomePage />}
         </div>
     )
 }
