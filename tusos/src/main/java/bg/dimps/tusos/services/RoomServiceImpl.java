@@ -4,9 +4,13 @@ import bg.dimps.tusos.entities.*;
 import bg.dimps.tusos.repositories.ElectricApplianceRepository;
 import bg.dimps.tusos.repositories.FurnitureRepository;
 import bg.dimps.tusos.repositories.RoomRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RoomServiceImpl implements RoomService{
@@ -44,7 +48,7 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public List<Room> getAllDormRooms(Long dormId) {
+    public List<Room> getAllDormRooms(String dormId) {
         return roomRepository.findRoomsByDormID(dormId);
     }
 
@@ -95,6 +99,20 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
+    public void addStudent(String dormId, Long roomNumber, Student student) {
+        Room currentRoom = roomRepository.findRoomByDormIDAndRoomNumber(dormId, roomNumber);
+        if (currentRoom == null)
+            throw new RuntimeException("Няма такава стая.");
+
+        if (currentRoom.getStudents().size() == 2)
+            throw new RuntimeException("Стаята е заета.");
+
+        currentRoom.getStudents().add(student);
+        student.setRoom(currentRoom);
+        roomRepository.save(currentRoom);
+    }
+
+    @Override
     public boolean removeElectricAppliance(Long electricApplianceId) {
         ElectricAppliances toRemove = electricApplianceRepository.findElectricAppliancesByApplianceID(electricApplianceId);
         if (toRemove != null){
@@ -105,20 +123,23 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public boolean addStudent(Long roomId, Student student) {
-        if (student != null){
-            Room currentRoom = getRoomById(roomId);
-            currentRoom.getStudents().add(student);
-            student.setRoom(currentRoom);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 
+    @Override
+    public List<String> getAllAvailableDorms() {
+        List<String> dorms = new ArrayList<>();
+        List<Room> rooms = roomRepository.findAll();
+        for (Room room : rooms) {
+            if (room.getStudents().size() >= 2)
+                continue;
+
+            if (!dorms.contains(room.getDormID()))
+                dorms.add(room.getDormID());
+        }
+
+        return dorms;
+    }
 
 }

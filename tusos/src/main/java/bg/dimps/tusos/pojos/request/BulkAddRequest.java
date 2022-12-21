@@ -1,10 +1,10 @@
-package bg.dimps.tusos.security.pojos.request;
+package bg.dimps.tusos.pojos.request;
 
 import javax.validation.constraints.NotBlank;
 
 public class BulkAddRequest {
     @NotBlank
-    private Long dormId;
+    private String dormId;
 
     @NotBlank
     private Long floorCount;
@@ -12,11 +12,11 @@ public class BulkAddRequest {
     @NotBlank
     private Long roomsPerFloorCount;
 
-    public Long getDormId() {
+    public String getDormId() {
         return dormId;
     }
 
-    public void setDormId(Long dormId) {
+    public void setDormId(String dormId) {
         this.dormId = dormId;
     }
 

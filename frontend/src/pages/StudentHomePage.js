@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import StudentHomeMenusWrapper from "../components/studentComponents/StudentHomeMenusWrapper";
-import AddApplianceModal from "../components/studentComponents/AddApplianceModal";
 import { hasRoom } from "../actions/getRequests";
 import StudentHomeNoRoom from "../components/studentComponents/StudentHomeNoRoom";
+import { logout } from '../actions/auth';
+import { connect } from 'react-redux';
 
-function StudentHomePage() {
+export default connect(({ error }) => ({ error }), { logout })(props => {
     const [studentHasRoom, setStudentHasRoom] = useState(false)
 
     useEffect(() => {
         hasRoom().then((value) => setStudentHasRoom(value))
-        console.log()
     })
 
     const [furnitureFlag, setFurnitureFlag] = useState(false);
@@ -22,6 +22,11 @@ function StudentHomePage() {
         setApplianceFlag(!applianceFlag);
     }
 
+    function logOut() {
+        console.log("aaaaaa")
+        props.logout()
+    }
+
     return (<div>
         <div className="container py-2">
             <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -30,7 +35,7 @@ function StudentHomePage() {
                 </a>
 
                 <ul className="nav nav-pills">
-                    <li className="nav-item"><a href="#" className="nav-link active" aria-current="page">Изход</a></li>
+                    <li className="nav-item"><a role="button" onClick={logOut} className="nav-link active pe-auto" aria-current="page">Изход</a></li>
                 </ul>
             </header>
         </div>
@@ -42,5 +47,4 @@ function StudentHomePage() {
             {studentHasRoom ? <StudentHomeMenusWrapper furnitureFlag={furnitureFlag} btnOnClick={btnOnClick} /> : <StudentHomeNoRoom />}
         </div>
     </div>)
-}
-export default StudentHomePage;
+})

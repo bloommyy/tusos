@@ -1,8 +1,5 @@
 package bg.dimps.tusos.entities;
 
-import bg.dimps.tusos.security.pojos.request.BulkAddRequest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,7 @@ public class Room {
     private Long roomNumber;
 
     @Column(name = "dorm_id")
-    private Long dormID;
+    private String dormID;
 
     @OneToMany(mappedBy = "room")
     private List<Student> students;
@@ -42,7 +39,7 @@ public class Room {
         this.description = description;
     }
 
-    public Room(Long dormID, Long roomNumber) {
+    public Room(String dormID, Long roomNumber) {
         this.dormID = dormID;
         this.roomNumber = roomNumber;
         this.students = new ArrayList<>();
@@ -54,7 +51,7 @@ public class Room {
     public Room() {
     }
 
-    public Long getDormID() {
+    public String getDormID() {
         return dormID;
     }
 
@@ -66,7 +63,7 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public void setDormID(Long dormID) {
+    public void setDormID(String dormID) {
         this.dormID = dormID;
     }
 

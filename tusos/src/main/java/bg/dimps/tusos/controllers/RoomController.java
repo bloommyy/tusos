@@ -1,17 +1,17 @@
 package bg.dimps.tusos.controllers;
 
 import bg.dimps.tusos.entities.*;
-import bg.dimps.tusos.pojos.AddFurnitureRequest;
-import bg.dimps.tusos.pojos.ElectricApplianceRequest;
-import bg.dimps.tusos.security.pojos.request.BulkAddRequest;
+import bg.dimps.tusos.pojos.request.*;
 import bg.dimps.tusos.services.RoomService;
 import bg.dimps.tusos.services.StudentService;
-import bg.dimps.tusos.services.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,18 +26,25 @@ public class RoomController {
         this.studentService = studentService;
     }
 
-    @PreAuthorize("hasRole('ROLE_HOST')")
-    @GetMapping("/fetch")
-    public ResponseEntity<?> getAllRoomsInDorm(Long dormId) {
-        List<Room> rooms = roomService.getAllDormRooms(dormId);
-        return ResponseEntity.ok(rooms);
+    @PreAuthorize("hasAnyRole('ROLE_HOST','ROLE_STUDENT')")
+    @PostMapping("/fetchAvailableRoomsForDorm")
+    public ResponseEntity<?> getAvailableRoomsForDorm(@RequestBody AvailableRoomsRequest availableRoomsRequest) {
+        List<Room> rooms = roomService.getAllDormRooms(availableRoomsRequest.getDormId());
+        List<Long> availableRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getStudents().size() >=2)
+                continue;
+
+            availableRooms.add(room.getRoomNumber());
+        }
+        return ResponseEntity.ok(availableRooms);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_HOST','ROLE_STUDENT')")
-    @GetMapping("/fetchAllRooms")
-    public ResponseEntity<?> getAllRooms() {
-        List<Room> rooms = roomService.getAllRooms();
-        return ResponseEntity.ok(rooms);
+    @PostMapping("/fetchAvailableDorms")
+    public ResponseEntity<?> getAvailableDorms() {
+        List<String> availableDorms = roomService.getAllAvailableDorms();
+        return ResponseEntity.ok(availableDorms);
     }
 
     @PreAuthorize("hasRole('ROLE_HOST')")
@@ -72,15 +79,21 @@ public class RoomController {
         return ResponseEntity.ok(totalNumCount + " стаи упешно добавени!");
     }
 
-    @PreAuthorize("hasRole('ROLE_HOST')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_HOST')")
     @PostMapping("/addStudent")
-    public ResponseEntity<?> addStudent(Long roomId, @RequestBody Student student) {
-        Room currentRoom = roomService.getRoomById(roomId);
-        if (currentRoom != null && student != null) {
-            roomService.addStudent(roomId, student);
+    public ResponseEntity<?> addStudent(@RequestBody AddStudentToRoomRequest addStudentToRoomRequest) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        Student currentStudent = studentService.getStudentByEmail(currentUserEmail);
+
+        if (currentStudent == null)
+            return ResponseEntity.badRequest().body("Не сте влезли.");
+
+        try {
+            roomService.addStudent(addStudentToRoomRequest.getDormId(), addStudentToRoomRequest.getRoomNumber(), currentStudent);
             return ResponseEntity.ok("Student added successfully!");
+        }catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Cannot save null object");
     }
 
 

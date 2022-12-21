@@ -1,4 +1,4 @@
-package bg.dimps.tusos.pojos;
+package bg.dimps.tusos.pojos.request;
 
 import javax.validation.constraints.NotNull;
 

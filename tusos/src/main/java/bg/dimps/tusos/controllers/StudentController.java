@@ -58,7 +58,7 @@ public class StudentController {
         return "Student with facultyNumber - " + facultyNumber + " was deleted";
     }
 
-    @GetMapping("/hasRoom")
+    @PostMapping("/hasRoom")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<?> hasRoom()
     {
