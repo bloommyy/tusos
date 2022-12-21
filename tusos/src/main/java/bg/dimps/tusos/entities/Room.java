@@ -9,8 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "room_number"),
-        @UniqueConstraint(columnNames = "dorm_id")
+        @UniqueConstraint(columnNames = {"room_number", "dorm_id"})
 })
 public class Room {
 

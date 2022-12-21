@@ -58,7 +58,7 @@ public class RoomController {
             if (!roomService.getAllDormRooms(bulkAddRequest.getDormId()).isEmpty())
                 throw new Exception("Съществува поне една стая в този блок.");
 
-            for (Long floor = 0L; floor < bulkAddRequest.getFloorCount(); floor++) {
+            for (Long floor = 1L; floor <= bulkAddRequest.getFloorCount(); floor++) {
                 for (Long roomNumber = 1L; roomNumber <= bulkAddRequest.getRoomsPerFloorCount(); roomNumber++) {
                     Long processedRoomNumber = floor * 100 + roomNumber;
                     roomService.saveRoom(new Room(bulkAddRequest.getDormId(), processedRoomNumber));
