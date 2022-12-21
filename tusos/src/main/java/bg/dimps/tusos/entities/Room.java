@@ -1,14 +1,12 @@
 package bg.dimps.tusos.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "room_number"),
-        @UniqueConstraint(columnNames = "dorm_id")
+        @UniqueConstraint(columnNames = {"room_number", "dorm_id"})
 })
 public class Room {
 
@@ -20,7 +18,7 @@ public class Room {
     private Long roomNumber;
 
     @Column(name = "dorm_id")
-    private Long dormID;
+    private String dormID;
 
     @OneToMany(mappedBy = "room")
     private List<Student> students;
@@ -41,15 +39,19 @@ public class Room {
         this.description = description;
     }
 
+    public Room(String dormID, Long roomNumber) {
+        this.dormID = dormID;
+        this.roomNumber = roomNumber;
+        this.students = new ArrayList<>();
+        this.furnitures = new ArrayList<>();
+        this.electricAppliances = new ArrayList<>();
+        this.description = "";
+    }
+
     public Room() {
     }
 
-    public Room(Long dormID, Long roomNumber) {
-        this.roomNumber = roomNumber;
-        this.dormID = dormID;
-    }
-
-    public Long getDormID() {
+    public String getDormID() {
         return dormID;
     }
 
@@ -61,7 +63,7 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public void setDormID(Long dormID) {
+    public void setDormID(String dormID) {
         this.dormID = dormID;
     }
 

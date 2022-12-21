@@ -7,6 +7,8 @@ import bg.dimps.tusos.security.pojos.request.StudentSignupRequest;
 import bg.dimps.tusos.services.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,5 +58,18 @@ public class StudentController {
         return "Student with facultyNumber - " + facultyNumber + " was deleted";
     }
 
+    @PostMapping("/hasRoom")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public ResponseEntity<?> hasRoom()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String studentEmail = authentication.getName();
+        Student student = studentService.getStudentByEmail(studentEmail);
+        if (student == null )
+            return ResponseEntity.badRequest().body("Не е намерен студент!");
+        if (student.getRoom() == null)
+            return ResponseEntity.ok(false);
 
+        return ResponseEntity.ok(true);
+    }
 }

@@ -1,7 +1,6 @@
 package bg.dimps.tusos.entities;
 
 import bg.dimps.tusos.security.pojos.request.HostSignupRequest;
-import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 import java.util.Set;

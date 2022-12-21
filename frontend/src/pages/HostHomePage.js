@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddFurnitureModal from "./AddFurnitureModal";
+import AddFurnitureModal from "../components/studentComponents/AddFurnitureModal";
 import HostHomeMenu from "../components/HostHomeMenu";
 
 function HostHomePage() {

@@ -1,6 +1,6 @@
-import desk from "../assets/desk.png";
-import fridge from "../assets/fridge.png";
-import bill from "../assets/bill.png";
+import desk from "../../assets/desk.png";
+import fridge from "../../assets/fridge.png";
+import bill from "../../assets/bill.png";
 
 function StudentHomeMenu({ btnOnClick }) {
     return (<div className="row row-cols-1 row-cols-md-3 mb-3 mt-5 text-center">
@@ -23,7 +23,7 @@ function StudentHomeMenu({ btnOnClick }) {
                 </div>
                 <div className="card-body">
                     <a href="#">
-                        <div className="panel-body"><img src={fridge} className="img-responsive" width="40%" alt="Image" /></div>
+                        <div className="panel-body"><img src={fridge} onClick={btnOnClick} className="img-responsive" width="40%" alt="Image" /></div>
                     </a>
                 </div>
             </div>

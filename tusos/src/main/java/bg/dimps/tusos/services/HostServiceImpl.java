@@ -4,7 +4,6 @@ import bg.dimps.tusos.entities.Host;
 import bg.dimps.tusos.repositories.HostRepository;
 import bg.dimps.tusos.repositories.RoleRepository;
 import bg.dimps.tusos.security.pojos.request.HostSignupRequest;
-import bg.dimps.tusos.security.pojos.request.UserSignupRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

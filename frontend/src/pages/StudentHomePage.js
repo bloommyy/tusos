@@ -1,14 +1,30 @@
-import { useState } from "react";
-import AddFurnitureModal from "./AddFurnitureModal";
-import StudentHomeMenu from "../components/StudentHomeMenu";
+import { useEffect, useState } from "react";
+import StudentHomeMenusWrapper from "../components/studentComponents/StudentHomeMenusWrapper";
+import { hasRoom } from "../actions/getRequests";
+import StudentHomeNoRoom from "../components/studentComponents/StudentHomeNoRoom";
+import { logout } from '../actions/auth';
+import { connect } from 'react-redux';
 
-function StudentHomePage() {
-    const userJSON = JSON.parse(localStorage.getItem('user'));
+export default connect(({ error }) => ({ error }), { logout })(props => {
+    const [studentHasRoom, setStudentHasRoom] = useState(false)
+
+    useEffect(() => {
+        hasRoom().then((value) => setStudentHasRoom(value))
+    })
 
     const [furnitureFlag, setFurnitureFlag] = useState(false);
+    const [applianceFlag, setApplianceFlag] = useState(false);
 
     function btnOnClick() {
         setFurnitureFlag(!furnitureFlag);
+    }
+    function btnApplianceOnClick() {
+        setApplianceFlag(!applianceFlag);
+    }
+
+    function logOut() {
+        console.log("aaaaaa")
+        props.logout()
     }
 
     return (<div>
@@ -19,7 +35,7 @@ function StudentHomePage() {
                 </a>
 
                 <ul className="nav nav-pills">
-                    <li className="nav-item"><a href="#" className="nav-link active" aria-current="page">Изход</a></li>
+                    <li className="nav-item"><a role="button" onClick={logOut} className="nav-link active pe-auto" aria-current="page">Изход</a></li>
                 </ul>
             </header>
         </div>
@@ -28,9 +44,7 @@ function StudentHomePage() {
                 <h1 className="display-4 fw-normal">Студентски общежития и столове</h1>
                 <p className="fs-5 text-muted">Можете да управлявате своите ресурси и да плащате таксите си онлайн в портала на СОС, като изберете от предоставените опции</p>
             </div>
-            {!furnitureFlag && <StudentHomeMenu btnOnClick={btnOnClick} />}
-            {furnitureFlag && <AddFurnitureModal closed={btnOnClick} />}
+            {studentHasRoom ? <StudentHomeMenusWrapper furnitureFlag={furnitureFlag} btnOnClick={btnOnClick} /> : <StudentHomeNoRoom />}
         </div>
     </div>)
-}
-export default StudentHomePage;
+})
