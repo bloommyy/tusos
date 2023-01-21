@@ -3,9 +3,14 @@ package bg.dimps.tusos.services;
 import bg.dimps.tusos.config.AppConfig;
 import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
@@ -18,26 +23,48 @@ public class IdentityServiceImpl implements IdentityService{
     private final EmailSenderService emailSenderService;
     private final UserRepository userRepository;
 
-    public IdentityServiceImpl(EmailSenderService emailSenderService, UserRepository userRepository){
+    private final DataSource dataSource;
+
+    public IdentityServiceImpl(
+            EmailSenderService emailSenderService,
+            UserRepository userRepository,
+            DataSource dataSource){
         this.emailSenderService = emailSenderService;
         this.userRepository = userRepository;
+        this.dataSource = dataSource;
     }
 
     @Override
     public ResponseEntity<String> resetPassword(String receiverEmail) {
         Optional<User> user = userRepository.findUserByEmail(receiverEmail);
 
-        if(!user.isEmpty()) {
-            String newPassword = java.util.UUID.randomUUID().toString();
-            String message = String.format(RESET_RESENT_PASSWORD_MESSAGE, newPassword);
+        try{
+            if(!user.isEmpty()) {
+                try (Connection connection = dataSource.getConnection()) {
 
-            this.emailSenderService.sendEmail(receiverEmail, RESET_MESSAGE_SUBJECT, message);
-            user.get().setPassword(newPassword);
-            userRepository.save(user.get());
+                    connection.setAutoCommit(false);
 
-            // TODO mailsend and password change in transaction
+                    try{
+                        String newPassword = java.util.UUID.randomUUID().toString();
+                        String message = String.format(RESET_RESENT_PASSWORD_MESSAGE, newPassword);
+
+                        this.emailSenderService.sendEmail(receiverEmail, RESET_MESSAGE_SUBJECT, message);
+                        user.get().setPassword(newPassword);
+                        userRepository.save(user.get());
+
+                        connection.commit();
+                    }
+                    catch (Exception ex){
+                        connection.rollback();
+                    }
+                    finally {
+                        connection.setAutoCommit(true);
+                    }
+                }
+            }
+        }catch(SQLException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
 
         return ResponseEntity.ok(RESET_SUCCESSFUL_SENT);
     }
