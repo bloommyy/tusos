@@ -1,6 +1,7 @@
 export const ADD_FURNITURE = "ADD_FURNITURE";
 export const ADD_APPLIANCE = "ADD_APPLIANCE";
 export const VIEW_FURNITURE = "VIEW_FURNITURE";
+export const ADD_ALL_DORM_ROOMS = "ADD_ALL_DORM_ROOMS";
 
 export const addFurniture = furniture => {
     return {
@@ -15,7 +16,12 @@ export const addAppliance = appliance => {
         payload: appliance
     }
 }
-
+export const addAllDormRooms = bulkAddRequest => {
+    return {
+        type: ADD_ALL_DORM_ROOMS,
+        payload: bulkAddRequest
+    }
+}
 export const viewFurniture = furnitureList => {
     return {
         type: VIEW_FURNITURE,

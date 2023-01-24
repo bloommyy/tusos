@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddFurnitureModal from "../components/studentComponents/AddFurnitureModal";
 import HostHomeMenu from "../components/HostHomeMenu";
+import ManageRoomsModal from "../components/hostComponents/ManageRoomsModal";
 
 function HostHomePage() {
     const userJSON = JSON.parse(localStorage.getItem('user'));
@@ -29,7 +30,7 @@ function HostHomePage() {
                 <p className="fs-5 text-muted">Можете да управлявате своите ресурси и да плащате таксите си онлайн в портала на СОС, като изберете от предоставените опции</p>
             </div>
             {!furnitureFlag && <HostHomeMenu btnOnClick={btnOnClick} />}
-            {furnitureFlag && <AddFurnitureModal closed={btnOnClick} />}
+            {furnitureFlag && <ManageRoomsModal closed={btnOnClick} />}
         </div>
     </div>)
 }

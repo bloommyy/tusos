@@ -47,6 +47,7 @@ public class HostServiceImpl extends UserServiceImpl implements HostService {
     @Override
     public void validateRequest(HostSignupRequest hostSignupRequest)
     {
+
         super.validateRequest(hostSignupRequest);
     }
 }
