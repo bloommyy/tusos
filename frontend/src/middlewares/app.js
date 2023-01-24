@@ -1,6 +1,6 @@
 import { apiRequest } from "../actions/api";
 import { LOGIN, REGISTER } from "../actions/auth";
-import { ADD_FURNITURE, VIEW_FURNITURE, ADD_APPLIANCE } from "../actions/customAPI";
+import { ADD_FURNITURE, VIEW_FURNITURE, ADD_APPLIANCE, ADD_ALL_DORM_ROOMS } from "../actions/customAPI";
 
 export const SERVER_URL = `http://localhost:8080`;
 export const GET = 'GET';
@@ -39,6 +39,7 @@ export const appMiddleware = () => next => action => {
                     }
                 })
             )
+            break;
         }
         case ADD_FURNITURE: {
             next(
@@ -51,6 +52,7 @@ export const appMiddleware = () => next => action => {
                     }
                 })
             )
+            break;
         }
         case ADD_APPLIANCE: {
             next(
@@ -62,6 +64,7 @@ export const appMiddleware = () => next => action => {
                     }
                 })
             )
+            break;
         }
         case VIEW_FURNITURE: {
             next(
@@ -71,6 +74,21 @@ export const appMiddleware = () => next => action => {
                     data: {}
                 })
             )
+            break;
+        }
+        case ADD_ALL_DORM_ROOMS: {
+            next(
+                apiRequest({
+                    url: `${SERVER_URL}/room/addAllDormRooms`,
+                    method: POST,
+                    data: {
+                        dormId: action.payload.dormId,
+                        floorCount: action.payload.floorCount,
+                        roomsPerFloorCount: action.payload.roomsPerFloorCount
+                    }
+                })
+            )
+            break;
         }
         default:
             break;

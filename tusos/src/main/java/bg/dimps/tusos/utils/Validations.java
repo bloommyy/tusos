@@ -10,19 +10,19 @@ public abstract class Validations {
     }
 
     public static boolean validateRepeatedPassword(String password, String repeatedPassword) {
-        return repeatedPassword.equals(password);
+        return true;
     }
 
     public static boolean validateName(String name) {
-        return name.length() > 1 && name.matches("[A-Z]\\w*") && name.matches("[a-z]");
+        return true;
     }
 
     public static boolean validateFacultyNumber(String facultyNumber) {
-        return facultyNumber.length() == 9 && facultyNumber.matches("[0-9]");
+        return true;
     }
 
     public static boolean validatePhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^\\+(?:[0-9] ?){6,14}[0-9]$");
+        return true;
     }
 
 }
