@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { login } from '../actions/auth';
+import { forgottenPassword } from '../actions/auth';
 import logo from "../assets/logo-tu.png";
 
-function Alert(props) {
-    return //<MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-export default connect(({ error }) => ({ error }), { login })(props => {
+export default connect(({ error }) => ({ error }), { forgottenPassword })(props => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
 
     function btnOnClick(e) {
         e.preventDefault()
 
-        if (email === "" || password === "") {
-            alert("Не сте въвели e-mail или парола.");
+        if (email === "") {
+            alert("Не сте въвели e-mail.");
             return;
         }
 
-        props.login({ email, password });
+        props.forgottenPassword({ email });
     }
 
     return (<div>
@@ -45,23 +39,25 @@ export default connect(({ error }) => ({ error }), { login })(props => {
                                         <form>
                                             <div className="form-outline mb-4">
                                                 <label className="form-label">Email</label>
-                                                <input type="text" onChange={input => setEmail(input.target.value)} id="emailInput" className="form-control" />
+                                                <input type="email" onChange={input => {
+                                                    setEmail(input.target.value)
+                                                    if (!input.target.value.match("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))
+                                                        input.target.className = "form-control is-invalid"
+                                                    else
+                                                        input.target.className = "form-control"
+                                                }} id="emailInput" className="form-control" />
                                             </div>
-                                            <div className="form-outline mb-4">
-                                                <label className="form-label">Парола</label>
-                                                <input type="password" onChange={input => setPassword(input.target.value)} id="passwordInput" className="form-control" />
-                                            </div>
-
                                             <button type="submit" onClick={btnOnClick} className="btn btn-primary btn-block">
-                                                Вход
+                                                Изпращане на имейл
                                             </button>
 
                                             <div className="form-outline mt-4">
 
-                                                <p>За нов потребител: <a href="register" className="link-info"> Регистрация</a></p>
+                                                <p><a href="login" className="link-info"> Вход</a></p>
                                             </div>
                                             <div className="form-outline mt-4">
-                                                <p><a href="generate-password" className="link-info">Забравена парола?</a></p>
+
+                                                <p>За нов потребител: <a href="register" className="link-info"> Регистрация</a></p>
                                             </div>
                                         </form>
                                     </div>

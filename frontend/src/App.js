@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
+import GenerateNewPasswordPage from './pages/GenerateNewPasswordPage';
 
 const createStoreWithMiddleware = applyMiddleware(
   appMiddleware,
@@ -31,6 +32,9 @@ export default function App() {
             </AuthRoute>
             <AuthRoute path="/register">
               <RegisterPage />
+            </AuthRoute>
+            <AuthRoute path="/generate-password">
+              <GenerateNewPasswordPage />
             </AuthRoute>
             <AuthRoute path="/home" isAuthUser={true} type="private">
               <HomePage />

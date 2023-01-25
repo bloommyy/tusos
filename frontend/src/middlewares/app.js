@@ -1,5 +1,5 @@
 import { apiRequest } from "../actions/api";
-import { LOGIN, REGISTER } from "../actions/auth";
+import {FORGOTTEN_PASSWORD, LOGIN, REGISTER} from "../actions/auth";
 import { ADD_FURNITURE, VIEW_FURNITURE, ADD_APPLIANCE } from "../actions/customAPI";
 
 export const SERVER_URL = `http://localhost:8080`;
@@ -17,6 +17,18 @@ export const appMiddleware = () => next => action => {
                     data: {
                         email: action.payload.email,
                         password: action.payload.password
+                    }
+                })
+            )
+            break;
+        }
+        case FORGOTTEN_PASSWORD: {
+            next(
+                apiRequest({
+                    url: `${SERVER_URL}/generate-new-password`,
+                    method: "POST",
+                    data: {
+                        email: action.payload.email,
                     }
                 })
             )
