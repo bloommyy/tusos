@@ -56,7 +56,7 @@ public class UserController {
                 roles));
     }
 
-    @PostMapping("resetPassoword")
+    @PostMapping("reset-passoword")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest){
         return identityService.resetPassword(resetPasswordRequest.getEmail());
     }
