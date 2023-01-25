@@ -6,7 +6,6 @@ import bg.dimps.tusos.security.pojos.request.LoginRequest;
 import bg.dimps.tusos.security.pojos.response.JwtResponse;
 import bg.dimps.tusos.security.services.UserDetailsImpl;
 import bg.dimps.tusos.services.IdentityService;
-import bg.dimps.tusos.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping()
+@RequestMapping
 public class UserController {
 
     private final AuthenticationManager authenticationManager;
@@ -56,7 +55,7 @@ public class UserController {
                 roles));
     }
 
-    @PostMapping("reset-passoword")
+    @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest){
         return identityService.resetPassword(resetPasswordRequest.getEmail());
     }

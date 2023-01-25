@@ -25,7 +25,7 @@ export const appMiddleware = () => next => action => {
         case FORGOTTEN_PASSWORD: {
             next(
                 apiRequest({
-                    url: `${SERVER_URL}/generate-new-password`,
+                    url: `${SERVER_URL}/reset-password`,
                     method: "POST",
                     data: {
                         email: action.payload.email,
