@@ -5,6 +5,7 @@ import bg.dimps.tusos.entities.User;
 import bg.dimps.tusos.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -25,13 +26,17 @@ public class IdentityServiceImpl implements IdentityService{
 
     private final DataSource dataSource;
 
+    private final PasswordEncoder passwordEncoder;
+
     public IdentityServiceImpl(
             EmailSenderService emailSenderService,
             UserRepository userRepository,
-            DataSource dataSource){
+            DataSource dataSource,
+            PasswordEncoder passwordEncoder){
         this.emailSenderService = emailSenderService;
         this.userRepository = userRepository;
         this.dataSource = dataSource;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -49,7 +54,7 @@ public class IdentityServiceImpl implements IdentityService{
                         String message = String.format(RESET_RESENT_PASSWORD_MESSAGE, newPassword);
 
                         this.emailSenderService.sendEmail(receiverEmail, RESET_MESSAGE_SUBJECT, message);
-                        user.get().setPassword(newPassword);
+                        user.get().setPassword(passwordEncoder.encode(newPassword));
                         userRepository.save(user.get());
 
                         connection.commit();
