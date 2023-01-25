@@ -1,11 +1,12 @@
 package bg.dimps.tusos.controllers;
 
+import bg.dimps.tusos.pojos.request.ResetPasswordRequest;
 import bg.dimps.tusos.security.jwt.JwtUtils;
 import bg.dimps.tusos.security.pojos.request.LoginRequest;
 import bg.dimps.tusos.security.pojos.response.JwtResponse;
 import bg.dimps.tusos.security.services.UserDetailsImpl;
-import bg.dimps.tusos.services.StudentService;
-import bg.dimps.tusos.services.UserService;
+import bg.dimps.tusos.services.IdentityService;
+import bg.dimps.tusos.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +26,15 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
-    public UserController(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    private final IdentityService identityService;
+
+    public UserController(
+            AuthenticationManager authenticationManager,
+            JwtUtils jwtUtils,
+            IdentityService identityService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.identityService = identityService;
     }
 
     @PostMapping("/login")
@@ -47,5 +54,10 @@ public class UserController {
                 userDetails.getId(),
                 userDetails.getEmail(),
                 roles));
+    }
+
+    @PostMapping("reset-passoword")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest){
+        return identityService.resetPassword(resetPasswordRequest.getEmail());
     }
 }
