@@ -21,7 +21,7 @@ public class EmailSenderServiceImpl implements EmailSenderService{
 
         AppConfig.EmailSenderConfig emailSenderConfig = appConfig.getEmailConfig();
 
-        simpleMailMessage.setFrom(emailSenderConfig.getSentFrom());
+        simpleMailMessage.setFrom(emailSenderConfig.getSender());
         simpleMailMessage.setTo(receiver);
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(content);

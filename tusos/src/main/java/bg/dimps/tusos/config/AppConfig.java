@@ -13,13 +13,9 @@ public class AppConfig {
 
     public EmailSenderConfig getEmailConfig() { return emailConfig; };
 
-    @ConfigurationProperties(prefix = "spring.mail")
+    @ConfigurationProperties(prefix = "email_config")
     @Data
     public class EmailSenderConfig {
-        private String host;
-        private String port;
-        private String username;
-        private String password;
-        private String sentFrom;
+        private String sender;
     }
 }
